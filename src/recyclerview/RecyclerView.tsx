@@ -88,6 +88,7 @@ const RecyclerViewComponent = <T,>(
   } = props;
 
   const [renderTimeTracker] = useState(() => new RenderTimeTracker());
+  const hasScrolledToBottomRef = useRef(false);
 
   renderTimeTracker.startTracking();
 
@@ -569,6 +570,21 @@ const RecyclerViewComponent = <T,>(
               checkBounds();
               recyclerViewManager.computeItemViewability();
               recyclerViewManager.animationOptimizationsEnabled = false;
+              if (!hasScrolledToBottomRef.current && recyclerViewManager.hasLayout()) {
+                const containerSize = horizontal
+                  ? recyclerViewManager.getWindowSize().width
+                  : recyclerViewManager.getWindowSize().height;
+                const contentSize = horizontal
+                  ? recyclerViewManager.getChildContainerDimensions().width
+                  : recyclerViewManager.getChildContainerDimensions().height;
+
+                const offset = Math.max(0, contentSize - containerSize);
+
+                if (scrollViewRef.current) {
+                  scrollViewRef.current.scrollToOffset({ offset, animated: false });
+                  hasScrolledToBottomRef.current = true;
+                }
+              }
             }}
             CellRendererComponent={CellRendererComponent}
             ItemSeparatorComponent={ItemSeparatorComponent}
