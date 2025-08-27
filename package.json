@@ -28,6 +28,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prepare": "yarn build",
     "up": "yarn && yarn fixture:rn:up && yarn e2e:up && yarn build",
     "start": "cd fixture/react-native && react-native start",
     "test": "jest",
