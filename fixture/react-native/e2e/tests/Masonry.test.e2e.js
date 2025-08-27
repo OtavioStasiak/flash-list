@@ -1,0 +1,67 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var SnapshotAsserts_1 = require("../utils/SnapshotAsserts");
+var SnapshotLocation_1 = require("../utils/SnapshotLocation");
+describe("Masonry", function () {
+    var testNameLoad = "Masonry_with_FlashList_can_load";
+    var testNameScroll = "Masonry_with_FlashList_can_scroll";
+    beforeAll(function () { return tslib_1.__awaiter(void 0, void 0, void 0, function () {
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, device.launchApp({ newInstance: true })];
+                case 1:
+                    _a.sent();
+                    (0, SnapshotLocation_1.wipeArtifactsLocation)("diffs");
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    beforeEach(function () { return tslib_1.__awaiter(void 0, void 0, void 0, function () {
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, device.reloadReactNative()];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, device.setOrientation("portrait")];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("can render columns correctly", function () { return tslib_1.__awaiter(void 0, void 0, void 0, function () {
+        var testRunScreenshotPath;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, element(by.id("Masonry")).tap()];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, element(by.id("MasonryList")).takeScreenshot(testNameLoad)];
+                case 2:
+                    testRunScreenshotPath = _a.sent();
+                    (0, SnapshotAsserts_1.assertSnapshot)(testRunScreenshotPath, testNameLoad);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("can scroll", function () { return tslib_1.__awaiter(void 0, void 0, void 0, function () {
+        var testRunScreenshotPath;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, element(by.id("Masonry")).tap()];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, element(by.id("MasonryList")).scroll(2000, "down")];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, element(by.id("MasonryList")).takeScreenshot(testNameScroll)];
+                case 3:
+                    testRunScreenshotPath = _a.sent();
+                    (0, SnapshotAsserts_1.assertSnapshot)(testRunScreenshotPath, testNameScroll);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+//# sourceMappingURL=Masonry.test.e2e.js.map

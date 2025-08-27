@@ -88,7 +88,8 @@ const RecyclerViewComponent = <T,>(
   } = props;
 
   const [renderTimeTracker] = useState(() => new RenderTimeTracker());
-  const hasScrolledToBottomRef = useRef(false);
+  // const hasScrolledToBottomRef = useRef(false);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
   renderTimeTracker.startTracking();
 
@@ -284,6 +285,17 @@ const RecyclerViewComponent = <T,>(
       recyclerViewManager.computeItemViewability();
 
       // Call user-provided onScroll handler
+      recyclerViewManager.props.onScroll?.(event);
+
+      const { contentOffset, layoutMeasurement, contentSize } =
+        event.nativeEvent;
+      const paddingToBottom = 20; // px tolerance
+      const isNowAtBottom =
+        contentOffset.y + layoutMeasurement.height >=
+        contentSize.height - paddingToBottom;
+
+      setIsAtBottom(isNowAtBottom);
+
       recyclerViewManager.props.onScroll?.(event);
     },
     [
@@ -570,7 +582,8 @@ const RecyclerViewComponent = <T,>(
               checkBounds();
               recyclerViewManager.computeItemViewability();
               recyclerViewManager.animationOptimizationsEnabled = false;
-              if (!hasScrolledToBottomRef.current && recyclerViewManager.hasLayout()) {
+
+              if (recyclerViewManager.hasLayout() && isAtBottom) {
                 const containerSize = horizontal
                   ? recyclerViewManager.getWindowSize().width
                   : recyclerViewManager.getWindowSize().height;
@@ -580,10 +593,7 @@ const RecyclerViewComponent = <T,>(
 
                 const offset = Math.max(0, contentSize - containerSize);
 
-                if (scrollViewRef.current) {
-                  scrollViewRef.current.scrollToOffset({ offset, animated: false });
-                  hasScrolledToBottomRef.current = true;
-                }
+                scrollViewRef?.current?.scrollTo({ y: offset, animated: true });
               }
             }}
             CellRendererComponent={CellRendererComponent}

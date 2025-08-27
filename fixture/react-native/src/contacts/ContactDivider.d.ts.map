@@ -1,0 +1,1 @@
+{"version":3,"file":"ContactDivider.d.ts","sourceRoot":"","sources":["ContactDivider.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAC;AAG1B,OAAO,OAAO,MAAM,kBAAkB,CAAC;AAEvC,UAAU,mBAAmB;IAC3B,WAAW,EAAE,OAAO,GAAG,MAAM,CAAC;IAC9B,YAAY,EAAE,OAAO,GAAG,MAAM,CAAC;CAChC;AAED,QAAA,MAAM,cAAc,GAAI,+BAA+B,mBAAmB,6BASzE,CAAC;AAEF,eAAe,cAAc,CAAC"}
